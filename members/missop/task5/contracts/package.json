@@ -1,0 +1,19 @@
+{
+  "name": "task3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "hardhat compile",
+    "hardhat-node": "hardhat node",
+    "deploy": "hardhat deploy"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "4"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.13",
+    "hardhat-deploy": "^0.14.0"
+  }
+}
