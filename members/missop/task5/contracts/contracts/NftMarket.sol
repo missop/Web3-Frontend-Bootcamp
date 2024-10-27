@@ -19,12 +19,14 @@ contract NftMarket is ReentrancyGuard {
         address nftContract;
         uint256 tokenId;
         uint256 price;
+        uint256 listTime;
+        string cid;
         bool isActive;
     }
 
     mapping(address => mapping(uint256 => Listing)) public s_listings;
     uint256[] private s_tokenIds;
-    Listing[] private s_listArr;
+    // Listing[] private s_listArr;
     IERC20 public immutable i_paymentToken;
 
     // 上架 nft 事件
@@ -56,7 +58,8 @@ contract NftMarket is ReentrancyGuard {
     function listNft(
         address _nftContract,
         uint256 tokenId,
-        uint256 price
+        uint256 price,
+        string memory cid
     ) external {
         IERC721 nft = IERC721(_nftContract);
         if (nft.ownerOf(tokenId) != msg.sender) {
@@ -68,16 +71,19 @@ contract NftMarket is ReentrancyGuard {
         if (s_listings[_nftContract][tokenId].isActive) {
             revert NftMarket__IsListed("NFT already listed");
         }
+        uint256 listTime = block.timestamp;
         Listing memory item = Listing(
             msg.sender,
             _nftContract,
             tokenId,
             price,
+            listTime,
+            cid,
             true
         );
         s_listings[_nftContract][tokenId] = item;
         s_tokenIds.push(tokenId);
-        s_listArr.push(item);
+        // s_listArr.push(item);
 
         emit NftListed(msg.sender, tokenId, _nftContract, price);
     }
@@ -137,14 +143,14 @@ contract NftMarket is ReentrancyGuard {
     /**
      * @dev 从数组中获取，对比两者差异
      */
-    function getList(
-        address _nftContract
-    ) external view returns (Listing[] memory) {
-        for (uint256 i = 0; i < s_listArr.length; i++) {
-            Listing memory item = s_listArr[i];
-            Listing memory listingItem = s_listings[_nftContract][item.tokenId];
-            item.isActive = listingItem.isActive;
-        }
-        return s_listArr;
-    }
+    // function getList(
+    //     address _nftContract
+    // ) external view returns (Listing[] memory) {
+    //     for (uint256 i = 0; i < s_listArr.length; i++) {
+    //         Listing memory item = s_listArr[i];
+    //         Listing memory listingItem = s_listings[_nftContract][item.tokenId];
+    //         item.isActive = listingItem.isActive;
+    //     }
+    //     return s_listArr;
+    // }
 }

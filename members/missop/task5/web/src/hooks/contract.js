@@ -54,11 +54,11 @@ export function useWrite() {
    * 铸造 NFT
    * @returns
    */
-  async function mintNFT(baseUri) {
+  async function mintNFT() {
     try {
       return await writeContractAsync({
         functionName: "mint",
-        args: [account.address, baseUri],
+        args: [account.address],
         ...NFTContractParams,
       });
     } catch (error) {
@@ -145,7 +145,7 @@ export function useGetListsNFTs() {
   const { data, error } = useReadContract({
     ...NFTMarketParams,
     functionName: "getListsArray",
-    args: [NftMarketContractAddress],
+    args: [NftTokenContractAddress],
   });
 
   console.log("error", error);
@@ -160,7 +160,7 @@ export function useNftList() {
   const { data, error } = useReadContract({
     ...NFTMarketParams,
     functionName: "getList",
-    args: [],
+    args: [NftTokenContractAddress],
   });
 
   console.log("error", error);
