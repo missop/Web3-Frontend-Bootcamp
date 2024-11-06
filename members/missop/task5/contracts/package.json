@@ -6,14 +6,22 @@
   "scripts": {
     "compile": "hardhat compile",
     "hardhat-node": "hardhat node",
-    "deploy": "hardhat deploy"
+    "deploy": "hardhat deploy",
+    "test": "hardhat test",
+    "test-staging": "hardhat test --network sepolia",
+    "coverage": "hardhat coverage"
   },
   "dependencies": {
     "@openzeppelin/contracts": "4"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "chai": "4",
     "dotenv": "^16.4.5",
-    "hardhat": "^2.22.13",
-    "hardhat-deploy": "^0.14.0"
+    "ethereum-waffle": "*",
+    "ethers": "^5.0.0",
+    "hardhat": "^2.22.15",
+    "hardhat-deploy": "^0.14.0",
+    "solidity-coverage": "^0.8.13"
   }
 }

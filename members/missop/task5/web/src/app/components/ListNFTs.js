@@ -1,16 +1,18 @@
-import { useGetListsNFTs, useNftList, useWrite } from "@/hooks/contract";
+import { useGetListsNFTs, useListings, useWrite } from "@/hooks/contract";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import React from "react";
 import { useAccount } from "wagmi";
 import config from "../wagmi";
 import Image from "next/image";
 
+import { fromUnixTime, formatDate } from "date-fns";
+
 export default function ListNFTs() {
   const { address } = useAccount();
   const listNFTs = useGetListsNFTs() || [];
   console.log("listNFTs", listNFTs);
-  const lists = useNftList() || [];
-  console.log("lists", lists);
+  const data = useListings(listNFTs?.[0]?.tokenId?.toString?.());
+  console.log("data", data);
   const { approveAmount, buyNFT, unlistNFT, setApprovalForAll } = useWrite();
   return (
     <div className="flex gap-4 flex-wrap flex-1">
@@ -20,18 +22,21 @@ export default function ListNFTs() {
           <div key={index} className="rounded-md w-1/4 p-4 shadow-lg">
             <Image
               width={275}
-              height={183}
-              src={
-                "https://bronze-elderly-pheasant-478.mypinata.cloud/ipfs/QmdktNY4EURfKCvHiLNGqmu2RSJxY4RmzP1z7w8Dg2nqQM"
-              }
-              alt={nft.name}
+              height={228}
+              src={`https://bronze-elderly-pheasant-478.mypinata.cloud/ipfs/${nft.cid}`}
+              alt={"图片"}
             />
             <h2>NFT：#{nft.tokenId.toString()}</h2>
+            <p title={nft.cid} className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+              cid:{nft.cid}
+            </p>
             <p title={nft.seller} className="overflow-hidden overflow-ellipsis whitespace-nowrap">
               持有者：{nft.seller}
             </p>
             <p>价格：{nft.price.toString()}MT</p>
-            <p>上架时间：{nft.listTime?.toString?.()}</p>
+            <p>
+              上架时间：{nft.listTime ? formatDate(fromUnixTime(nft.listTime.toString()), "yyyy-MM-dd HH:mm:ss") : ""}
+            </p>
             {nft.seller === address ? (
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"

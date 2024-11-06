@@ -1,4 +1,4 @@
-import { useAccount, useReadContract, useWriteContract, useWatchContractEvent } from "wagmi";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 
 import MissopToken from "@/assets/abi/MissopToken.json";
 import NftToken from "@/assets/abi/NftToken.json";
@@ -38,11 +38,11 @@ export function useWrite() {
    * @param {*} price
    * @returns
    */
-  async function listNFT(tokenId, price) {
+  async function listNFT(tokenId, price, cid) {
     try {
       return await writeContractAsync({
         functionName: "listNft",
-        args: [NftTokenContractAddress, tokenId, price],
+        args: [NftTokenContractAddress, tokenId, price, cid],
         ...NFTMarketParams,
       });
     } catch (error) {
@@ -119,7 +119,7 @@ export function useWrite() {
     try {
       return await writeContractAsync({
         functionName: "unlistNft",
-        args: [NftMarketContractAddress, _tokenId],
+        args: [NftTokenContractAddress, _tokenId],
         ...NFTMarketParams,
       });
     } catch (error) {
@@ -153,32 +153,14 @@ export function useGetListsNFTs() {
   return data;
 }
 
-/**
- * 获取所有上架的 NFT
- */
-export function useNftList() {
+export function useListings(tokenId) {
   const { data, error } = useReadContract({
     ...NFTMarketParams,
-    functionName: "getList",
-    args: [NftTokenContractAddress],
+    functionName: "s_listings",
+    args: [NftTokenContractAddress, tokenId],
   });
 
   console.log("error", error);
+
   return data;
-}
-
-const useWatchParams = {
-  NFTContractParams,
-  NFTMarketParams,
-  MissopTokenParams,
-};
-
-export function useWatchEvent({ key, eventName, onSuccess, onError }) {
-  const params = useWatchParams[key] || {};
-  useWatchContractEvent({
-    ...params,
-    eventName,
-    onLogs: onSuccess,
-    onError,
-  });
 }

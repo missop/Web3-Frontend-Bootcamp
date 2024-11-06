@@ -1,5 +1,8 @@
 require("dotenv").config();
 require("hardhat-deploy");
+require("solidity-coverage");
+require("@nomiclabs/hardhat-ethers");
+
 /**
  * @type {import('hardhat/config').HardhatUserConfig}
  */
@@ -9,12 +12,12 @@ const config = {
   networks: {
     localhost: {
       chainId: 31337,
-      gas: 300000,
+      gas: 30_000_000,
       gasPrice: 8000000000,
     },
     hardhat: {
       chainId: 31337,
-      gas: 300000,
+      gas: 30_000_000,
       gasPrice: 8000000000,
     },
   },

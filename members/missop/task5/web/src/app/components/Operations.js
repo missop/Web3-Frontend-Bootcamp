@@ -93,12 +93,15 @@ export default function Operations() {
                   hash: approvalHash,
                 });
               }
-              const listHash = await listNFT(tokenId, price);
+              const listHash = await listNFT(tokenId, price, cid);
               if (listHash) {
                 await waitForTransactionReceipt(config, {
                   hash: listHash,
                 });
                 alert("上架成功");
+                setTokenId("");
+                setPrice("");
+                setCid("");
               }
             }
           }}
