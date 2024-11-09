@@ -34,9 +34,8 @@ export default function Operations() {
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <input
+            value={tokenId}
             type="text"
-            name="price"
-            id="price"
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-7 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             onChange={(e) => {
               setTokenId(e.target.value);
@@ -50,9 +49,8 @@ export default function Operations() {
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <input
+            value={price}
             type="text"
-            name="price"
-            id="price"
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-7 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             onChange={(e) => {
               setPrice(e.target.value);
@@ -66,9 +64,8 @@ export default function Operations() {
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <input
+            value={cid}
             type="text"
-            name="price"
-            id="price"
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-7 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             onChange={(e) => {
               setCid(e.target.value);

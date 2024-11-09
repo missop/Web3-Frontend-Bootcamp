@@ -100,11 +100,14 @@ contract NftMarket is ReentrancyGuard {
         if (!nft.isApprovedForAll(msg.sender, address(this))) {
             revert NftMarket__NotApproved("not approved");
         }
-        item.isActive = false;
+        s_listings[_nftContract][_tokenId].isActive = false;
         emit NftUnlisted(msg.sender, _tokenId, _nftContract);
     }
 
-    function buyNft(address _nftContract, uint256 _tokenId) external {
+    function buyNft(
+        address _nftContract,
+        uint256 _tokenId
+    ) external nonReentrant {
         Listing memory listing = s_listings[_nftContract][_tokenId];
         if (!listing.isActive) {
             revert NftMarket__NotActive("NFT not active");
@@ -139,18 +142,4 @@ contract NftMarket is ReentrancyGuard {
         }
         return listings;
     }
-
-    /**
-     * @dev 从数组中获取，对比两者差异
-     */
-    // function getList(
-    //     address _nftContract
-    // ) external view returns (Listing[] memory) {
-    //     for (uint256 i = 0; i < s_listArr.length; i++) {
-    //         Listing memory item = s_listArr[i];
-    //         Listing memory listingItem = s_listings[_nftContract][item.tokenId];
-    //         item.isActive = listingItem.isActive;
-    //     }
-    //     return s_listArr;
-    // }
 }
